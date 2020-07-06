@@ -1,22 +1,23 @@
 $(document).ready(function () {
-  const signupForm = $("#signupForm");
-  const emailInput = $("#emailInput");
-  const pwInput = $("#pwInput");
+  const form = $("#registerForm");
+  const email = $("#email");
+  const pw = $("#password");
 
-  signupForm.on("submit", function (e) {
+  form.on("submit", function (e) {
     e.preventDefault();
+    registerUser(email.val(), pw.val()).then(() =>
+      window.location.replace("/members")
+    );
+  });
+});
 
-    const User = {
-      email: emailInput.val().trim(),
-      password: pwInput.val().trim(),
-    };
-
+const registerUser = (email, password) => {
+  const userData = { email, password };
+  return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
       url: "/api/signup",
-      data: User,
-    }).then(() => {
-      window.location.replace("/");
-    });
+      data: userData,
+    }).then((res) => resolve(res));
   });
-});
+};

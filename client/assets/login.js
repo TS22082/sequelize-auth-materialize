@@ -1,22 +1,24 @@
 $(document).ready(function () {
-  const loginForm = $("#loginForm");
-  const emailInput = $("#emailInput");
-  const pwInput = $("#pwInput");
+  const form = $("#loginForm");
+  const email = $("#email");
+  const pw = $("#password");
 
-  loginForm.on("submit", function (e) {
+  form.on("submit", function (e) {
     e.preventDefault();
 
-    const User = {
-      email: emailInput.val().trim(),
-      password: pwInput.val().trim(),
-    };
+    loginUser(email.val(), pw.val()).then(() =>
+      window.location.replace("/members")
+    );
+  });
+});
 
+const loginUser = (email, password) => {
+  const userData = { email, password };
+  return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
       url: "/api/login",
-      data: User,
-    }).then(() => {
-      window.location.replace("/members");
-    });
+      data: userData,
+    }).then((res) => resolve(res));
   });
-});
+};
