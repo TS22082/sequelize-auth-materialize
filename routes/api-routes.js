@@ -20,11 +20,10 @@ router.post("/api/signup", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.send("yes");
-  // res.redirect("/");
+  res.redirect("/");
 });
 
-router.get("api/user_data", (req, res) => {
+router.get("/api/user_data", (req, res) => {
   !req.user
     ? res.json({ msg: "no user present" })
     : res.json({ email: req.user.email, id: req.user.id });
